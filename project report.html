@@ -1,0 +1,275 @@
+<html>
+<head>
+<title> CS440/640 Homework Template: HW[2] Student Name [Yizhi Huang]  </title>
+<style>
+<!--
+body{
+font-family: 'Trebuchet MS', Verdana;
+}
+p{
+font-family: 'Trebuchet MS', Times;
+margin: 10px 10px 15px 20px;
+}
+h3{
+margin: 5px;
+}
+h2{
+margin: 10px;
+}
+h1{
+margin: 10px 0px 0px 20px;
+}
+div.main-body{
+align:center;
+margin: 30px;
+}
+hr{
+margin:20px 0px 20px 0px;
+}
+-->
+</style>
+</head>
+
+<body>
+<center>
+<a href="http://www.bu.edu"><img border="0" src="http://www.cs.bu.edu/fac/betke/images/bu-logo.gif"
+width="119" height="120"></a>
+</center>
+
+<h1>Assignment Title</h1>
+<p> 
+CS 440 P2 <br>
+Yizhi Huang<br>
+Yue Zhou Annalisa Chen Yingqiao Xiong <br>
+Feb 22th 2016
+</p>
+
+<div class="main-body">
+<hr>
+<h2> Problem Definition </h2>
+<p>
+We are given a python skeleton code of neural network and two sets of different 2D data for training to do linear and non-linear classification on the data respectively. For linear classification, we only need a simple 2-layer neural network without a hidden layer. For the non-linear classification, we need a 3-layer network that includes one hidden layer. We need to write code to train the two neural network by the back propagation algorithm and find the correct weights and bias(variable "b" in the code) that could lead to the desired output. 
+<br>
+Our difficulties mostly occur in the implementation of neural network, such as how to update bias, how to do backpropagation and how to employ the formula to get each partial derivatives.
+</p>
+
+<hr>
+<h2> Method and Implementation </h2>
+<p>Give a concise description of the implemented method. For example, you might describe the motivation of current idea, the algorithmic steps or any formulation used in current method.
+</p>
+<p>
+In this project, we are given sets of data and have to implement function to fit these data into two categories, blue and red by drawing a decision boundary. 
+</p>
+<p>
+Basically, we have to build a simple neural network and train it by inputing data samples recursively to compute the gradient of cost function respect to each weight value in every loop. To do so, our algorithm goes through these steps: </p>
+<ul>
+  <li> Use <em> Forward Propagation </em> to compute the output from the neural network <b>y<sub>i</sub></b>, from the input value <b>x<sub>i</sub></b>. </li>
+  <li> Use <em> Backward Propagation </em> to compute the partial derivative of <em> cost function </em> <b>C(&#920;, b) </b> respect to every weight <b> &#920;</b> and bias <b> b </b> in the neural network. </li>
+  <li> Use <em> Gradient descent </em> to adjust each weight and bias in the neural network based on the value we calculated in last step so that cost function <b> C </b> is <em> minimized </em>. </li>
+  <li> After all, the neural network will generate a most accurate fit model with least error respecting to the desired output <b> y<sub>d<sub> </b>. 
+</ul>
+<p>
+  The formula sheet we use to calculate each value is: </p>
+<ul>
+  <li> &#946; for the output layer: &#946; = <b> y<sub>d</sub> - y<sub>i</sub> </b> </li>
+  <li> &#946; for the all other nodes:  &#946;<sub>j</sub> = &#931;<sub>k</sub> &#920;<sub>jk</sub>a<sub>k</sub>(1 - a<sub>k</sub>)&#946;<sub>k</sub></li>
+  <li> Weight change for all weights: &#916;<sub>&#946;<sub>ij</sub></sub> = &#949;a<sub>i</sub>a<sub>j</sub>(1 - a<sub>j</sub>)&#946;<sub>j</sub></li>
+</ul>
+<p>
+  Also, our alogrithm is implemented to hold 2 cases of input data: <br>
+  <B>Linear Dataset</b>  and <b>Non-linear Dataset</b> 
+  <br>
+  <br>
+  For the linear case, we design a <b> 2-layer Neural Network without hidden layer </b> so that it simply only has: </p>
+  <ul>
+    <li> <b> 1 </b> input layer and <b> 1 </b> output layer </li>
+    <li> <b> 1 </b> weight <b> &#920;</b>  connecting input <b>x<sub>i</sub></b> to output layer </li>
+    <li> <b> 1 </b> bias <b> b </b> </li>
+    <li> <b> Softmax function </b> is used at output layer to evaluate the performance </li>
+  </ul>
+  <p>
+  For the non-linear case, we design a <b> 2-layer Neural Network with 1 hidden layer </b> so that it has :
+  </p>
+  <ul>
+    <li> <b> 1 </b> input layer, <b> 1 </b> output layer  and <b> 1 </b> hidden layer </li>
+    <li> <b> 1 </b> weight <b> &#920;<sub>1</sub> </b>  connecting input <b>x<sub>i</sub></b> to hidden layer </li>
+    <li> <b> 1 </b> weight <b> &#920;<sub>2</sub> </b>  connecting output of hidden layer <b>a</b> to output layer </li>
+    <li> <b> 1 </b> bias <b> b <sub>1</sub> </b> to hidden layer </li>
+    <li> <b> 1 </b> bias <b> b <sub>2</sub> </b> to output layer </li>
+    <li> <b> Sigmoid function </b> is used at hideen layer to evaluate the performance <b>a</b></li>
+    <li> <b> Softmax function </b> is used at output layer to evaluate the performance <b>y<sub>i</sub></b></li>
+  </ul>
+</p> 
+<p>
+Briefly outline the functions you created in your code to carry out your algorithmic steps described above.
+</p>
+<p>
+In <b>Linear</b> case:
+<br>
+<b> Softmax function </b> e<sup>x</sup>/&#931;e<sup>x</sup> is used at output layer. It takes <b>z = &#920;<sub>1</sub> * x<sub>i</sub>  + b <sub>1</sub></b> as input to evaluate the performance <b>y<sub>i</sub></b></li>.
+<br>
+<br>
+In <b>Non-linear</b> case:
+<br>
+<b> Sigmoid function </b> 1 &#47; 1 + e<sup>-x</sup> is used at hideen layer. It takes <b>z<sub>1</sub> = &#920;<sub>1</sub> * x<sub>i</sub> + b <sub>1</sub></b> as input to evaluate the performance <b>a</b>. 
+<br>
+<b> Softmax function </b> e<sup>x</sup>/&#931;e<sup>x</sup> is used at output layer. It takes <b>z<sub>2</sub> = &#920;<sub>2</sub> * a + b <sub>2</sub></b> as input to evaluate the performance <b>y<sub>i</sub></b></li>.
+</p>
+<p>
+  Derivative of <b> Softmax function </b>: <b> y<sub>d</sub> - y<sub>i</sub> </b>
+  <br>
+  Derivative of <b> Sigmoid function </b>: <b> a * (1 - a) </b>
+</p>
+<hr>
+<h2>Experiments</h2>
+<p>
+Describe your experiments, including the number of tests that you
+performed, and the relevant parameter values.  </p>
+<p>
+  For the linear case, we have test our code with: </p>
+  <ul>
+    <li> <b>5</b> experiments with learning rate &#949; = <b>0.01</b>. All experiments tends to reach a same cost error result with numerical value evaulated by <em> compute_cost() </em> function = <b>0.217186791203</b>. </li>
+    <li> <b>1</b> experiments with learning rate &#949; = <b>0.05</b>. Cost error = <b>0.207276806755</b>. </li>
+    <li> <b>1</b> experiments with learning rate &#949; = <b>0.25</b>. Cost error = <b>0.207132323445</b>. </li>
+  </ul>
+<p>
+  For the non-linear case, we have test our code with: </p>
+  <ul>
+    <li> <b>1</b> experiments with learning rate &#949; = <b>0.01</b> and dimension = <b>3</b> Cost error = <b>0.127223422784</b>. </li>
+    <li> <b>1</b> experiments with learning rate &#949; = <b>0.01</b> and dimension = <b>4</b> Cost error = <b>0.142334245373</b>. </li>
+    <li> <b>1</b> experiments with learning rate &#949; = <b>0.25</b> and dimension = <b>3</b> Cost error = <b>0.237276806755</b>. </li>
+    <li> <b>1</b> experiments with learning rate &#949; = <b>0.25</b> and dimension = <b>5</b> Cost error = <b>0.227234034371</b>. </li>
+    <li> <b>1</b> experiments with learning rate &#949; = <b>0.5</b> and dimension = <b>10</b> Cost error = <b>Overfitting</b></li>
+  </ul>
+
+<p>
+Define your evaluation
+metrics, e.g., detection rates, accuracy, running time. </p>
+<p>
+  The running time is exponential since the algorithm use a nested loop. The parament of outside loop is the number of learning, and that of inside loop is the number of sample size of given dataset. 
+</p>
+<hr>
+<h2> Results</h2>
+<p>
+<table>
+<tr><td colspan=3><center><h3>Results</h3></center></td></tr>
+<tr>
+<td> &#949; </td><td> Linear </td> <td> Non-Linear</td> 
+</tr>
+<tr>
+  <td> <b>0.01</b> </td> 
+  <td> <img src="figure_1.png"> </td> 
+  <td> <img src="figure_2.png"> </td>
+</tr> 
+<tr>
+  <td> <b>0.05</b> </td> 
+  <td> <img src="figure_3.png"> </td> 
+  <td> <img src="figure_4.png"> </td>
+</tr> 
+<tr>
+  <td> <b>0.5</b> </td> 
+  <td> <img src="figure_5.png"> </td> 
+  <td> <b>None-Linear Case Overfitting</b> <td>
+</tr> 
+</table>
+</p>
+
+
+
+<hr>
+<h2> Discussion </h2>
+
+<p> 
+Discuss your method and results:
+<ul>
+<li>What are the strengths and weaknesses of your method? </li>
+<li>Do your results show that your method is generally successful or
+     are there limitations? Describe what you expected to find in your
+     experiments, and how that differed or was confirmed by your
+     results. </li>
+<li>Potential future work. How could your method be improved?   What
+would you try (if you had more time) to overcome the
+failures/limitations of your work?</li> 
+</ul>
+</p>
+<p>
+Our method has a pretty good generalization capability that yields results that meet our expectation,even though it is somewhat slow in training the data: it takes a few minutes. 
+<br>
+For the potential future work, we could choose a different activation function that behaves better for these given data samples. Indeed, in order to speed up the training, we could employ the concept of gradient descent. In general, during each loop we calculate the partial derivative of cost function respect to input weight w. Indeed, because we use a non-convex activation function, there is only one local mininum so that if the partial derivative approaches to zero, it indicates that the previous weight value is getting closer to the optimization point. 
+</p>  
+<hr>
+<p>
+  <b>2</b>. Now, train your neural network model using the dataset ToyMoonX.csv, ToyMoonY.csv and visualize the decision boundary learned by your model. Can your 2-layer neural network model learn non-linear decision boundaries? Why or why not?
+  <br>
+  <br>
+  The 2-layer neural network model cannot learn non-linear decision boundaries because the result of this neural network is indeed a linear line with slope w and intercept b in the xy plane. 
+</p>
+<p>
+  <b>3</b>. Implement a neural network class with 1 hidden layer. Train this model using the dataset ToyLinearX.csv, ToyLinearY.csv and visualize the decision boundary learned by your model. Then, train your neural network model using the dataset ToyMoonX.csv, ToyMoonY.csv and visualize the decision boundary learned by your model. Can your 3-layer neural network model (with one hidden layer) learn non-linear decision boundaries? Why or why not?
+  <br>
+  <br>
+   The 3-layer neural network model can learn non-linear decision boundaries because it has a hidden layer of dimenison n. Then we can image our decision boundaries <b>y</b>learned by the machine as a <b>polynomial function</b> with degree <b>n</b>. So that the regression function <b>y</b> can be fitted by these data.
+</p>
+<p>
+  <b>4</b>. What effect does learning rate have on how your neural network is trained? Illustrate your answer by training your model using different learning rates.
+  <br>
+  <br>
+  Based on the result we get from the experiment, we try different value of learning rate as 0.01, 0.05 and 0.025. It indicates that the incresement of learning rate &#949; will increse the rate of changement of gradient respect to each weights and bias in the neural network. It takes less time and iteration to minimizi the cost function but it increase the risk of overfitting. However, the smaller the &#949; is, the more stable would the neural network be. In general, it is a trade off between stablility and efficiency. 
+</p> 
+<p>
+  <b>5</b>. What effect does the number of nodes in the hidden layer have on how your neural network is trained? Illustrate your answer by training your model using differnet numbers of hidden layer nodes.
+  <br>
+  <br>
+  As stated in question 2, the number of nodes in the hidden layer determines the degree of the polynomial function learned by machine. Based on the experiment, the decision boundary as a function will become more complex as the dimension increases and has more extremes and curves, but become more smooth and flat as the dimension decreses to 1. 
+</p>
+<p>
+  <b>6</b>. What is overfitting and why does it occur in practice? Name and briefly explain 3 ways to reduce overfitting.
+  <br>
+  <br>
+  Overfitting generally occurs when a model is excessively complex, such as having too many parameters relative to the number of observations, and the steps are so large that the locally computed gradients are not valid. A model that has been overfit will generally have poor predictive performance, as it can exaggerate minor fluctuations in the data. 
+  <br>
+  The way to reduce overfitting:
+  <ul>
+    <li>Occam's Razor: Occam's Razor states that simpler models should be preferred to unnecessarily complex ones, meaning of all the networks which will fit the training data, find the simplest. The idea is to use the prior term to measure the complexity of the network and prefer simpler networks to the complex ones. The complexity can be measured by find a set of variables which change monotonically with the complexity of the network. For example, network that has more weights is more complex; the more hidden units are, the more complexity the network has. Thus, reducing complexity of network can be done by weight decay or weight elimination.</li>
+    <li>Cross-validation: The second method we can use is cross-validation, which randomly split available (input, output) pairs into a training set to learn the model and a test set to test the learned model. In back-propagation training the train-set and test-set residual errors are evaluated at each step. The step with minimum test error is considered the best estimate of the weights. Model complexity is optimized when the residual test error (RMS) is a minimum.</li>
+    <li>L2 regularization uses a penalty term which encourages the sum of the squares of the parameters to be small.
+  </ul>
+</p>
+<p>
+  <b>7</b>. One common technique used to reduce overfitting is L2 regularization. How does L2 regularization prevent overfitting? Implement L2 regularization. How differently does your model perform before and after implementing L2 regularization?
+  L2 regularization uses a penalty term which encourages the sum of the squares of the parameters to be small, and L2 regularization is rotationally invariant for any training set S, rotational matrix M &#8712; M, and test example x, we have that L[S](x) = L[S'](x'), where S' = MS, x' = Mx. More generally, if L is a stochastic learning algorithm so that its predictions are random, we say that it is rotationally invariant if, for any S,M,x, the predictions L[S](x) and L[S'](x') have the same distribution. Although it is hard to see in the decision boundary, our code is more accurate after implementing the L2 regularization since the compute cost is smaller.  
+</p> 
+<hr>
+<h2> Conclusions </h2>
+
+<p>
+Based on your discussion, what are your conclusions?  What is your
+main message?
+</p>
+<p>
+Although we successfully draw the classification boundaries, but we could not precisely find out the weights, bias and output. A error rate of 0 is hard te be guaranteed. 
+Moreover, after trying different number of nodes(dimensionalities) in hidden layer, we find out that fewer nodes in the hidden layer make the algorithm perform better in capturing the general trend of the data, but too many nodes would cause overfitting. 
+By trying different learning rate, we also know that if the learning rate is too large, accuracy will be poor and overfitting happenes more frequently. As the learning rate decreases, generalization accuracy improves but training speed is slow and takes more time to reach to ideal result.
+</p> 
+
+<hr>
+<h2> Credits and Bibliography </h2>
+<p>
+Dolhansky, Brian. "Artificial Neural Networks: Linear Classification (Part 2)." RSS. Web. 22 Feb. 2016. <http://briandolhansky.com/blog/2013/7/11/artificial-neural-networks-linear-classification-part-2>.
+<br>
+<br>
+Britz, Denny. "Implementing a Neural Network from Scratch in Python - An Introduction." WildML. 2015. Web. 22 Feb. 2016. <http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/>.
+</p>
+
+<p> 
+<h2> Contribution </h2>
+At the first hand, I looked through lecture notes and did some online research for some open source to get a general idea on making linear classifcation in 2-layer neural network and non-linear classification in 3-layer(1 hidden layer) neural network. Regarding the given skeleton code given from the lab, I discuss and explain some ideas about the implementation of the method with my teammates.Moreover, I also start implementing the two neural network on my own first and then explained what I implemented to my teammates and exchange ideas to come up a solution. 
+</p>
+
+<hr>
+</div>
+</body>
+
+
+
+</html>
